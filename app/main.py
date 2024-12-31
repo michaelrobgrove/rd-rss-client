@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user, c
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import feedparser
+import json
 from auth import User, init_auth, check_password, update_password
 from config import Config
 from rd_api import RealDebridAPI
@@ -105,14 +106,28 @@ def test_static():
         'files': files
     })
 
+def load_torrents():
+    if os.path.exists('config/torrents.json'):
+        with open('config/torrents.json', 'r') as f:
+            return json.load(f)
+    return []
+
+def save_torrents(torrents):
+    with open('config/torrents.json', 'w') as f:
+        json.dump(torrents, f)
+
 def check_feeds():
     rd_api = RealDebridAPI(config.get_rd_api_key())
+    added_torrents = load_torrents()
     for feed in config.get_feeds():
         parsed_feed = feedparser.parse(feed)
         for entry in parsed_feed.entries:
             if 'magnet' in entry.link:
                 magnet_link = entry.link
-                rd_api.add_magnet(magnet_link)
+                if magnet_link not in added_torrents:
+                    rd_api.add_magnet(magnet_link)
+                    added_torrents.append(magnet_link)
+    save_torrents(added_torrents)
 
 if __name__ == '__main__':
     init_auth()
