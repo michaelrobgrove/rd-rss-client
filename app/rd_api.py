@@ -27,3 +27,10 @@ class RealDebridAPI:
             if torrent['magnet'] == magnet_link:
                 return True
         return False
+
+    def start_download(self, torrent_id):
+        headers = {'Authorization': f'Bearer {self.api_key}'}
+        response = requests.post(f'{self.base_url}/torrents/selectFiles/{torrent_id}', 
+                               headers=headers, 
+                               data={'files': 'all'})
+        return response.json()
