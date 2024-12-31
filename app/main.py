@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import feedparser
 import json
+import time
 from auth import User, init_auth, check_password, update_password
 from config import Config
 from rd_api import RealDebridAPI
@@ -134,6 +135,18 @@ def check_feeds():
                         start_download(rd_api, torrent_id)
                         added_torrents.append(magnet_link)
     save_torrents(added_torrents)
+
+def retry_with_exponential_backoff(func, max_retries=5):
+    retries = 0
+    while retries < max_retries:
+        try:
+            return func()
+        except Exception as e:
+            wait_time = 2 ** retries
+            logging.error(f"Error: {e}. Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+            retries += 1
+    raise Exception("Max retries exceeded")
 
 if __name__ == '__main__':
     init_auth()
