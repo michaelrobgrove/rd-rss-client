@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RD-RSS Client</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Mogra&display=swap" rel="stylesheet"> <!-- Google Fonts link for Mogra -->
 </head>
 <body>
+    <div class="background-image" style="background-image: url('https://source.unsplash.com/random');"></div> <!-- Random background image with dark overlay -->
     <div class="container">
         {% with messages = get_flashed_messages() %}
             {% if messages %}

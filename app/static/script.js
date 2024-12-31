@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', function() {
-            document.body.dataset.theme = 
-                document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', 
+                document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         });
     }
 
@@ -24,14 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const refreshBtn = document.getElementById('refresh-feeds-btn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshFeeds);
-    }
-
-    // Live log button
-    const liveLogBtn = document.getElementById('live-log-btn');
-    if (liveLogBtn) {
-        liveLogBtn.addEventListener('click', function() {
-            window.location.href = '/live_log';
-        });
     }
 });
 
@@ -125,23 +117,3 @@ function showAlert(message) {
         alertDiv.remove();
     }, 3000);
 }
-
-function fetchLiveLogs() {
-    fetch('/api/live_log')
-        .then(response => response.json())
-        .then(data => {
-            const logContainer = document.getElementById('live-log-container');
-            logContainer.innerHTML = '';
-            data.logs.forEach(log => {
-                const logEntry = document.createElement('p');
-                logEntry.textContent = log;
-                logContainer.appendChild(logEntry);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching live logs:', error);
-        });
-}
-
-setInterval(fetchLiveLogs, 5000); // Fetch logs every 5 seconds
-fetchLiveLogs(); // Initial fetch
