@@ -105,6 +105,18 @@ def test_static():
         'files': files
     })
 
+@app.route('/live_log')
+@login_required
+def live_log():
+    return render_template('live_log.html')
+
+@app.route('/api/live_log', methods=['GET'])
+@login_required
+def get_live_log():
+    # Placeholder for actual log fetching logic
+    logs = ["Log entry 1", "Log entry 2", "Log entry 3"]
+    return jsonify({"logs": logs})
+
 def check_feeds():
     rd_api = RealDebridAPI(config.get_rd_api_key())
     for feed in config.get_feeds():

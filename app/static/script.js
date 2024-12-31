@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshFeeds);
     }
+
+    // Live log button
+    const liveLogBtn = document.getElementById('live-log-btn');
+    if (liveLogBtn) {
+        liveLogBtn.addEventListener('click', function() {
+            window.location.href = '/live_log';
+        });
+    }
 });
 
 function addFeed() {
@@ -117,3 +125,23 @@ function showAlert(message) {
         alertDiv.remove();
     }, 3000);
 }
+
+function fetchLiveLogs() {
+    fetch('/api/live_log')
+        .then(response => response.json())
+        .then(data => {
+            const logContainer = document.getElementById('live-log-container');
+            logContainer.innerHTML = '';
+            data.logs.forEach(log => {
+                const logEntry = document.createElement('p');
+                logEntry.textContent = log;
+                logContainer.appendChild(logEntry);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching live logs:', error);
+        });
+}
+
+setInterval(fetchLiveLogs, 5000); // Fetch logs every 5 seconds
+fetchLiveLogs(); // Initial fetch

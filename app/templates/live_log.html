@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header">
+    <h1>Live Log</h1>
+</div>
+
+<div id="live-log-container" class="log-container">
+    <p>Loading logs...</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function fetchLiveLogs() {
+        fetch('/api/live_log')
+            .then(response => response.json())
+            .then(data => {
+                const logContainer = document.getElementById('live-log-container');
+                logContainer.innerHTML = '';
+                data.logs.forEach(log => {
+                    const logEntry = document.createElement('p');
+                    logEntry.textContent = log;
+                    logContainer.appendChild(logEntry);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching live logs:', error);
+            });
+    }
+
+    setInterval(fetchLiveLogs, 5000); // Fetch logs every 5 seconds
+    fetchLiveLogs(); // Initial fetch
+});
+</script>
+{% endblock %}
