@@ -7,6 +7,7 @@ import feedparser
 from auth import User, init_auth, check_password, update_password
 from config import Config
 from rd_api import RealDebridAPI
+import tailer  # P1183
 
 # Initialize Flask app and configure it
 app = Flask(__name__)
@@ -113,8 +114,8 @@ def live_log():
 @app.route('/api/live_log', methods=['GET'])
 @login_required
 def get_live_log():
-    # Placeholder for actual log fetching logic
-    logs = ["Log entry 1", "Log entry 2", "Log entry 3"]
+    log_file_path = '/path/to/docker/log/file.log'  # Update with actual log file path
+    logs = tailer.tail(open(log_file_path), 10)  # Pdbd3, P88a6
     return jsonify({"logs": logs})
 
 def check_feeds():
