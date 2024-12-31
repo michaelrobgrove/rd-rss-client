@@ -1,4 +1,4 @@
-# RD-RSS Client
+# RSS-Debrid Client
 
 A Docker container that automatically downloads torrents from RSS feeds using Real-Debrid.
 
