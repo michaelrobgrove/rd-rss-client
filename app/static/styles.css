@@ -1,6 +1,6 @@
 :root {
-    --primary-red: #e63946;
-    --primary-blue: #1d3557;
+    --primary-red: #ff6700;
+    --primary-blue: #001F3F;
     --light-blue: #457b9d;
     --background: #f1faee;
     --text: #1d3557;
@@ -20,6 +20,7 @@ body {
     margin: 0;
     padding: 20px;
     transition: background-color 0.3s, color 0.3s;
+    data-theme: dark;
 }
 
 .container {
