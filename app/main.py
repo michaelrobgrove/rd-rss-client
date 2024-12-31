@@ -305,6 +305,7 @@ def check_feeds():
                         torrent_id = response['id']
                         start_download(rd_api, torrent_id)
                         added_torrents.append(magnet_link)
+                        logging.info(f"Added magnet link: {magnet_link}")  # Log added magnet links
     save_torrents(added_torrents)
 
 def retry_with_exponential_backoff(func, max_retries=5):
