@@ -116,6 +116,9 @@ def save_torrents(torrents):
     with open('config/torrents.json', 'w') as f:
         json.dump(torrents, f)
 
+def start_download(rd_api, torrent_id):
+    rd_api.start_download(torrent_id)
+
 def check_feeds():
     rd_api = RealDebridAPI(config.get_rd_api_key())
     added_torrents = load_torrents()
@@ -125,8 +128,11 @@ def check_feeds():
             if 'magnet' in entry.link:
                 magnet_link = entry.link
                 if magnet_link not in added_torrents:
-                    rd_api.add_magnet(magnet_link)
-                    added_torrents.append(magnet_link)
+                    response = rd_api.add_magnet(magnet_link)
+                    if 'id' in response:
+                        torrent_id = response['id']
+                        start_download(rd_api, torrent_id)
+                        added_torrents.append(magnet_link)
     save_torrents(added_torrents)
 
 if __name__ == '__main__':
