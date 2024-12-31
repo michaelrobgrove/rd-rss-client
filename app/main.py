@@ -114,7 +114,7 @@ def live_log():
 @app.route('/api/live_log', methods=['GET'])
 @login_required
 def get_live_log():
-    log_file_path = '/app/logs/docker.log'  # Update with actual log file path
+    log_file_path = '/app/logs/docker.log'  # Ensure the log file path is correct
     try:
         logs = tailer.tail(open(log_file_path), 10)
         return jsonify({"logs": logs})
