@@ -143,6 +143,44 @@ function callApi() {
         }
         method = 'POST';
         body = settings;
+    } else if (apiMethod === 'add_torrent') {
+        const torrentFile = prompt('Enter the torrent file as base64:');
+        if (!torrentFile) {
+            showAlert('Torrent file is required');
+            return;
+        }
+        method = 'PUT';
+        body = torrentFile;
+    } else if (apiMethod === 'add_magnet') {
+        const magnetLink = prompt('Enter the magnet link:');
+        if (!magnetLink) {
+            showAlert('Magnet link is required');
+            return;
+        }
+        method = 'POST';
+        body = JSON.stringify({ magnet: magnetLink });
+    } else if (apiMethod === 'select_files') {
+        const torrentId = prompt('Enter the torrent ID:');
+        if (!torrentId) {
+            showAlert('Torrent ID is required');
+            return;
+        }
+        const fileIds = prompt('Enter the file IDs (comma-separated):');
+        if (!fileIds) {
+            showAlert('File IDs are required');
+            return;
+        }
+        url += `/${torrentId}`;
+        method = 'POST';
+        body = JSON.stringify({ files: fileIds });
+    } else if (apiMethod === 'delete_torrent') {
+        const torrentId = prompt('Enter the torrent ID:');
+        if (!torrentId) {
+            showAlert('Torrent ID is required');
+            return;
+        }
+        url += `/${torrentId}`;
+        method = 'DELETE';
     }
 
     fetch(url, {
