@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, f
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
+import feedparser
 from auth import User, init_auth, check_password, update_password
 from config import Config
 from rd_api import RealDebridAPI
@@ -107,8 +108,11 @@ def test_static():
 def check_feeds():
     rd_api = RealDebridAPI(config.get_rd_api_key())
     for feed in config.get_feeds():
-        # Process RSS feed and send torrents to Real-Debrid
-        pass
+        parsed_feed = feedparser.parse(feed)
+        for entry in parsed_feed.entries:
+            if 'magnet' in entry.link:
+                magnet_link = entry.link
+                rd_api.add_magnet(magnet_link)
 
 if __name__ == '__main__':
     init_auth()
