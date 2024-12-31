@@ -73,6 +73,219 @@ class RealDebridAPI:
             logging.error(f"Error selecting files: {str(e)}")
             return False
 
+    def get_user_info(self) -> Optional[Dict[str, Any]]:
+        """Get current user info"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/user",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting user info: {str(e)}")
+            return None
+
+    def unrestrict_link(self, link: str) -> Optional[Dict[str, Any]]:
+        """Unrestrict a link"""
+        try:
+            response = requests.post(
+                f"{self.base_url}/unrestrict/link",
+                headers=self.headers,
+                data={'link': link}
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error unrestricting link: {str(e)}")
+            return None
+
+    def get_traffic_info(self) -> Optional[Dict[str, Any]]:
+        """Get traffic information for limited hosters"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/traffic",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting traffic info: {str(e)}")
+            return None
+
+    def get_streaming_links(self, file_id: str) -> Optional[Dict[str, Any]]:
+        """Get streaming links for a given file"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/streaming/transcode/{file_id}",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting streaming links: {str(e)}")
+            return None
+
+    def get_downloads_list(self) -> Optional[List[Dict[str, Any]]]:
+        """Get user downloads list"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/downloads",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting downloads list: {str(e)}")
+            return None
+
+    def delete_download(self, download_id: str) -> bool:
+        """Delete a link from downloads list"""
+        try:
+            response = requests.delete(
+                f"{self.base_url}/downloads/delete/{download_id}",
+                headers=self.headers
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error deleting download: {str(e)}")
+            return False
+
+    def get_supported_hosts(self) -> Optional[List[Dict[str, Any]]]:
+        """Get supported hosts"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/hosts",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting supported hosts: {str(e)}")
+            return None
+
+    def get_user_settings(self) -> Optional[Dict[str, Any]]:
+        """Get current user settings"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/settings",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting user settings: {str(e)}")
+            return None
+
+    def update_user_settings(self, settings: Dict[str, Any]) -> bool:
+        """Update user settings"""
+        try:
+            response = requests.post(
+                f"{self.base_url}/settings/update",
+                headers=self.headers,
+                data=settings
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error updating user settings: {str(e)}")
+            return False
+
+    def convert_fidelity_points(self) -> bool:
+        """Convert fidelity points"""
+        try:
+            response = requests.post(
+                f"{self.base_url}/settings/convertPoints",
+                headers=self.headers
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error converting fidelity points: {str(e)}")
+            return False
+
+    def change_password(self) -> bool:
+        """Send verification email to change the password"""
+        try:
+            response = requests.post(
+                f"{self.base_url}/settings/changePassword",
+                headers=self.headers
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error changing password: {str(e)}")
+            return False
+
+    def upload_avatar(self, avatar_file: bytes) -> bool:
+        """Upload avatar image"""
+        try:
+            response = requests.put(
+                f"{self.base_url}/settings/avatar",
+                headers=self.headers,
+                data=avatar_file
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error uploading avatar: {str(e)}")
+            return False
+
+    def delete_avatar(self) -> bool:
+        """Reset user avatar"""
+        try:
+            response = requests.delete(
+                f"{self.base_url}/settings/avatar",
+                headers=self.headers
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error deleting avatar: {str(e)}")
+            return False
+
+    def get_server_time(self) -> Optional[Dict[str, Any]]:
+        """Get server time"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/time",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting server time: {str(e)}")
+            return None
+
+    def get_server_time_iso(self) -> Optional[Dict[str, Any]]:
+        """Get server time in ISO"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/time/iso",
+                headers=self.headers
+            )
+            if response.status_code == 200:
+                return response.json()
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logging.error(f"Error getting server time in ISO: {str(e)}")
+            return None
+
+    def disable_access_token(self) -> bool:
+        """Disable current access token"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/disable_access_token",
+                headers=self.headers
+            )
+            return response.status_code == 204
+        except requests.RequestException as e:
+            logging.error(f"Error disabling access token: {str(e)}")
+            return False
+
 # Usage example
 def process_torrent(api: RealDebridAPI, magnet_link: str) -> bool:
     # First check instant availability

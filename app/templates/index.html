@@ -49,4 +49,31 @@
         {% endif %}
     </div>
 </div>
+
+<div class="api-section">
+    <h2>Real-Debrid API Methods</h2>
+    <div class="form-group">
+        <label for="api-method">API Method:</label>
+        <select id="api-method">
+            <option value="get_user_info">Get User Info</option>
+            <option value="unrestrict_link">Unrestrict Link</option>
+            <option value="get_traffic_info">Get Traffic Info</option>
+            <option value="get_streaming_links">Get Streaming Links</option>
+            <option value="get_downloads_list">Get Downloads List</option>
+            <option value="delete_download">Delete Download</option>
+            <option value="get_supported_hosts">Get Supported Hosts</option>
+            <option value="get_user_settings">Get User Settings</option>
+            <option value="update_user_settings">Update User Settings</option>
+            <option value="convert_fidelity_points">Convert Fidelity Points</option>
+            <option value="change_password">Change Password</option>
+            <option value="upload_avatar">Upload Avatar</option>
+            <option value="delete_avatar">Delete Avatar</option>
+            <option value="get_server_time">Get Server Time</option>
+            <option value="get_server_time_iso">Get Server Time ISO</option>
+            <option value="disable_access_token">Disable Access Token</option>
+        </select>
+        <button id="call-api-btn" class="button">Call API</button>
+    </div>
+    <div id="api-response" class="api-response"></div>
+</div>
 {% endblock %}

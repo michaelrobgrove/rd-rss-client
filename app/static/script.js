@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshFeeds);
     }
+
+    // API method call button
+    const callApiBtn = document.getElementById('call-api-btn');
+    if (callApiBtn) {
+        callApiBtn.addEventListener('click', callApi);
+    }
 });
 
 function addFeed() {
@@ -103,6 +109,54 @@ function refreshFeeds() {
         }
     })
     .catch(error => showAlert('Error refreshing feeds'));
+}
+
+function callApi() {
+    const apiMethod = document.getElementById('api-method').value;
+    let url = `/api/${apiMethod}`;
+    let method = 'GET';
+    let body = null;
+
+    if (apiMethod === 'unrestrict_link') {
+        const link = prompt('Enter the link to unrestrict:');
+        if (!link) {
+            showAlert('Link is required');
+            return;
+        }
+        method = 'POST';
+        body = JSON.stringify({ link: link });
+    } else if (apiMethod === 'get_streaming_links' || apiMethod === 'delete_download') {
+        const id = prompt('Enter the file/download ID:');
+        if (!id) {
+            showAlert('ID is required');
+            return;
+        }
+        url += `/${id}`;
+        if (apiMethod === 'delete_download') {
+            method = 'DELETE';
+        }
+    } else if (apiMethod === 'update_user_settings') {
+        const settings = prompt('Enter the settings as JSON:');
+        if (!settings) {
+            showAlert('Settings are required');
+            return;
+        }
+        method = 'POST';
+        body = settings;
+    }
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: body
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('api-response').textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(error => showAlert('Error calling API'));
 }
 
 function showAlert(message) {
