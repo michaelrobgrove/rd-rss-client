@@ -207,19 +207,6 @@ def convert_fidelity_points():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
-@app.route('/api/settings/change_password', methods=['POST'])
-@login_required
-def change_password():
-    rd_api = RealDebridAPI(config.get_rd_api_key())
-    try:
-        success = rd_api.change_password()
-        if success:
-            return jsonify({"status": "success"})
-        else:
-            return jsonify({"status": "error", "message": "Failed to change password"})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)})
-
 @app.route('/api/settings/upload_avatar', methods=['PUT'])
 @login_required
 def upload_avatar():
