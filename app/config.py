@@ -10,7 +10,7 @@ class Config:
         if not os.path.exists('config'):
             os.makedirs('config')
         if not os.path.exists(self.config_file):
-            self.config = {'feeds': [], 'rd_api_key': ''}
+            self.config = {'feeds': [], 'rd_api_key': '', 'api_methods': {}}
             self.save_config()
         else:
             with open(self.config_file, 'r') as f:
@@ -38,4 +38,11 @@ class Config:
 
     def set_rd_api_key(self, key):
         self.config['rd_api_key'] = key
+        self.save_config()
+
+    def get_api_methods(self):
+        return self.config['api_methods']
+
+    def set_api_methods(self, methods):
+        self.config['api_methods'] = methods
         self.save_config()
