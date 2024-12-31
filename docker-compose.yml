@@ -1,0 +1,10 @@
+#version: '3'
+services:
+  rd-rss-client:
+    build: .
+    container_name: rd-rss-client
+    ports:
+      - "10500:10500"
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped

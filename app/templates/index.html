@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="header">
+    <h1>RD-RSS Client</h1>
+    <div class="header-controls">
+        <button id="refresh-feeds-btn" class="button">Refresh Feeds</button>
+        <button id="theme-toggle" class="button theme-toggle">Toggle Theme</button>
+    </div>
+</div>
+
+<div class="settings-section">
+    <h2>Change Password</h2>
+    <form method="POST" action="{{ url_for('change_password') }}">
+        <div class="form-group">
+            <label for="new_password">New Password:</label>
+            <input type="password" id="new_password" name="new_password" required>
+        </div>
+        <button type="submit" class="button">Update Password</button>
+    </form>
+
+    <h2>Real-Debrid Settings</h2>
+    <div class="form-group">
+        <label for="rd-api-key">API Key:</label>
+        <input type="password" id="rd-api-key" value="{{ rd_api_key }}">
+        <button id="save-settings-btn" class="button">Save Settings</button>
+    </div>
+</div>
+
+<div class="feed-section">
+    <h2>RSS Feeds</h2>
+    <div class="feed-form">
+        <div class="form-group">
+            <label for="feed-url">Feed URL:</label>
+            <input type="text" id="feed-url" placeholder="Enter RSS feed URL">
+            <button id="add-feed-btn" class="button">Add Feed</button>
+        </div>
+    </div>
+    
+    <div class="feed-list">
+        {% if feeds %}
+            {% for feed in feeds %}
+            <div class="feed-item">
+                <span class="feed-url">{{ feed }}</span>
+                <button onclick="removeFeed({{ loop.index0 }})" class="button button-danger">Remove</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-feeds">No feeds added yet. Add your first RSS feed above.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
