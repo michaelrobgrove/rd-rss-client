@@ -7,4 +7,5 @@ services:
       - "10500:10500"
     volumes:
       - ./config:/app/config
+      - ./logs:/app/logs
     restart: unless-stopped
