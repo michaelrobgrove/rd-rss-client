@@ -2,9 +2,9 @@
     --primary-red: #ff6700;
     --primary-blue: #001F3F;
     --light-blue: #457b9d;
-    --background: #f1faee;
-    --text: #1d3557;
-    --border-color: #a8dadc;
+    --background: #1d3557; /* Default to dark theme */
+    --text: #f1faee; /* Default to dark theme */
+    --border-color: #457b9d;
 }
 
 [data-theme="dark"] {
@@ -159,4 +159,27 @@ body {
 .settings-section h2 {
     margin-top: 0;
     color: var(--text);
+}
+
+/* Add fun and modern styles */
+.header h1 {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: var(--primary-red);
+    text-shadow: 2px 2px var(--primary-blue);
+}
+
+.button {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    box-shadow: 2px 2px var(--primary-blue);
+}
+
+.feed-item {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    box-shadow: 2px 2px var(--primary-blue);
+}
+
+.login-container h1 {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: var(--primary-red);
+    text-shadow: 2px 2px var(--primary-blue);
 }
