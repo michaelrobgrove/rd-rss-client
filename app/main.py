@@ -96,6 +96,190 @@ def refresh_feeds():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
+@app.route('/api/user', methods=['GET'])
+@login_required
+def get_user_info():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        user_info = rd_api.get_user_info()
+        return jsonify(user_info)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/unrestrict', methods=['POST'])
+@login_required
+def unrestrict_link():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    link = request.json.get('link')
+    try:
+        unrestricted_link = rd_api.unrestrict_link(link)
+        return jsonify(unrestricted_link)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/traffic', methods=['GET'])
+@login_required
+def get_traffic_info():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        traffic_info = rd_api.get_traffic_info()
+        return jsonify(traffic_info)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/streaming/<file_id>', methods=['GET'])
+@login_required
+def get_streaming_links(file_id):
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        streaming_links = rd_api.get_streaming_links(file_id)
+        return jsonify(streaming_links)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/downloads', methods=['GET'])
+@login_required
+def get_downloads_list():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        downloads_list = rd_api.get_downloads_list()
+        return jsonify(downloads_list)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/downloads/<download_id>', methods=['DELETE'])
+@login_required
+def delete_download(download_id):
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        success = rd_api.delete_download(download_id)
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to delete download"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/hosts', methods=['GET'])
+@login_required
+def get_supported_hosts():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        supported_hosts = rd_api.get_supported_hosts()
+        return jsonify(supported_hosts)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings', methods=['GET'])
+@login_required
+def get_user_settings():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        user_settings = rd_api.get_user_settings()
+        return jsonify(user_settings)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings', methods=['POST'])
+@login_required
+def update_user_settings():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    settings = request.json
+    try:
+        success = rd_api.update_user_settings(settings)
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to update settings"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings/convert_points', methods=['POST'])
+@login_required
+def convert_fidelity_points():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        success = rd_api.convert_fidelity_points()
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to convert fidelity points"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings/change_password', methods=['POST'])
+@login_required
+def change_password():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        success = rd_api.change_password()
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to change password"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings/upload_avatar', methods=['PUT'])
+@login_required
+def upload_avatar():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    avatar_file = request.data
+    try:
+        success = rd_api.upload_avatar(avatar_file)
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to upload avatar"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/settings/delete_avatar', methods=['DELETE'])
+@login_required
+def delete_avatar():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        success = rd_api.delete_avatar()
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to delete avatar"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/time', methods=['GET'])
+@login_required
+def get_server_time():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        server_time = rd_api.get_server_time()
+        return jsonify(server_time)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/time/iso', methods=['GET'])
+@login_required
+def get_server_time_iso():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        server_time_iso = rd_api.get_server_time_iso()
+        return jsonify(server_time_iso)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route('/api/disable_access_token', methods=['GET'])
+@login_required
+def disable_access_token():
+    rd_api = RealDebridAPI(config.get_rd_api_key())
+    try:
+        success = rd_api.disable_access_token()
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "Failed to disable access token"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
 @app.route('/test-static')
 def test_static():
     """Debug endpoint to test static file locations"""
